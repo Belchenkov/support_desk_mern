@@ -1,0 +1,18 @@
+{
+  "name": "support-desk",
+  "version": "1.0.0",
+  "description": "Support ticket application built with the MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+  },
+  "keywords": [
+    "MERN",
+    "Express.js",
+    "MongoDB",
+    "React",
+    "Node.js"
+  ],
+  "author": "Aleksey Belchenkov",
+  "license": "ISC"
+}

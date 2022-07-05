@@ -9,7 +9,10 @@ app.get('/', (req, res) => {
         .json({
         message: 'Welcome to the support desk API'
     });
-})
+});
+
+// Routes`
+app.use('/api/users', require('./routes/userRoutes'));
 
 const PORT = process.env.PORT || 5000;
 

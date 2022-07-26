@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/userModel');
@@ -11,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        res.status(400);
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY);
         throw new Error('Please include all fields!!!');
     }
 
@@ -41,6 +42,8 @@ const registerUser = asyncHandler(async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                isAdmin: user.isAdmin,
+                token: generateToken(user._id)
             });
     } else {
         res.status(StatusCodes.BAD_REQUEST);
@@ -52,8 +55,34 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route /api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
-    res.send('Login route');
+    const { password, email } = req.body;
+
+    const user = await User.findOne({email});
+    const comparePassword = await bcrypt.compare(password, user.password);
+
+    if (user && comparePassword) {
+        res
+            .status(StatusCodes.OK)
+            .json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: generateToken(user._id)
+            });
+    } else {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('Invalid credentials');
+    }
 });
+
+const generateToken = id => {
+    return jwt.sign(
+        { id },
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' }
+    );
+};
 
 module.exports = {
     registerUser,

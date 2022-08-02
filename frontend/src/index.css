@@ -82,6 +82,16 @@ h3 {
   padding: 0 20px;
 }
 
+.heading h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading h1 svg {
+  margin-right: 10px;
+}
+
 .heading p {
   color: #828282;
 }

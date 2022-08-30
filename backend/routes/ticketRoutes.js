@@ -1,6 +1,12 @@
 const express = require('express');
 
-const { getTickets, createTicket, getTicket } = require('../controllers/ticketController.js');
+const {
+    getTickets,
+    createTicket,
+    getTicket ,
+    deleteTicket,
+    updateTicket,
+} = require('../controllers/ticketController.js');
 const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -11,5 +17,7 @@ router.route('/')
 
 router.route('/:id')
     .get(protect, getTicket)
+    .put(protect, updateTicket)
+    .delete(protect, deleteTicket)
 
 module.exports = router;

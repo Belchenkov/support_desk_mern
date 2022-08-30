@@ -24,6 +24,36 @@ const getTickets = asyncHandler(async (req, res) => {
         })
 });
 
+// @desc Get user ticket
+// @route GET /api/tickets/:id
+// @access Private
+const getTicket = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('User not found');
+    }
+
+    const ticket = await Ticket.findById(req.params.id);
+
+    if (!ticket) {
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error('Ticket not found');
+    }
+
+    if (ticket.user.toString() !== req.user.id) {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('Not Authorized!');
+    }
+
+    res.status(StatusCodes.OK)
+        .json({
+            status: true,
+            ticket,
+        })
+});
+
 // @desc Get user tickets
 // @route POST /api/tickets
 // @access Private
@@ -58,5 +88,6 @@ const createTicket = asyncHandler(async (req, res) => {
 
 module.exports = {
     getTickets,
+    getTicket,
     createTicket,
 };

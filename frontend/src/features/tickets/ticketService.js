@@ -22,7 +22,7 @@ const getTickets = async (token) => {
     });
 
     if (response?.data.status) {
-        return response.data;
+        return response.data.tickets;
     }
 };
 

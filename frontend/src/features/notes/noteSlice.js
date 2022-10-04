@@ -46,11 +46,11 @@ export const noteSlice = createSlice({
     }
 });
 
-export const getNotes = createAsyncThunk('notes/getAll', async (_, thunkAPI) => {
+export const getNotes = createAsyncThunk('notes/getAll', async (ticketId, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token;
 
-        return await noteService.getNotes(token);
+        return await noteService.getNotes(ticketId, token);
     } catch (err) {
         return thunkAPI.rejectWithValue(err?.response?.data?.message || err.message || err.toString());
     }

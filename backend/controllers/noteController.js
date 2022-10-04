@@ -32,6 +32,39 @@ const getNotes = asyncHandler(async (req, res) => {
         })
 });
 
+// @desc Add note for a ticket
+// @route POST /api/tickets/:ticketId/notes
+// @access Private
+const addNote = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('User not found');
+    }
+
+    const ticket = await Ticket.findById(req.params.ticketId);
+
+    if (ticket.user.toString() !== req.user.id) {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('User not authorized!');
+    }
+
+    const note = await Note.create({
+        text: req.body.text,
+        isStaff: false,
+        ticket: req.params.ticketId,
+        user: req.user.id,
+    });
+
+    res.status(StatusCodes.CREATED)
+        .json({
+            status: true,
+            note,
+        })
+});
+
 module.exports = {
     getNotes,
+    addNote,
 };

@@ -15,15 +15,15 @@ const getNotes = async (ticketId, token) => {
     }
 };
 
-const createNote = async (ticketData, token) => {
-    const response = await axios.post(API_URL, ticketData, {
+const createNote = async ({ noteText, ticketId }, token) => {
+    const response = await axios.post(API_URL + ticketId + '/notes', { text: noteText }, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
 
     if (response?.data.status) {
-        return response.data;
+        return response.data.note;
     }
 };
 

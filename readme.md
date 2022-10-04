@@ -2,11 +2,14 @@
 
 > Support ticket application built with the MERN stack
 
+### [Demo](https://support-desk-mern-ab.herokuapp.com/)
+![IMAGE ALT TEXT HERE](./screen.png)
+
 ## Usage
 
 ### Set Environment Variables
 
-Rename the .envexample to .env and add your [MongoDB](https://www.mongodb.com/) database URI and your JWT secret
+Rename the .env.example to .env and add your [MongoDB](https://www.mongodb.com/) database URI and your JWT secret
 
 ### Install backend dependencies
 
